@@ -21,7 +21,26 @@ package com.alibaba.csp.sentinel.dashboard.rule;
  */
 public final class NacosConfigUtil {
 
-    public static final String GROUP_ID = "DEFAULT_GROUP";
+    /**
+     * Nacos Group。默认 {@code DEFAULT_GROUP_YML}，启动时由 {@code nacos.groupId} 覆盖，
+     * 环境变量 {@code NACOS_GROUP_ID} 优先。
+     * 不能声明为 {@code final}，否则编译器会把字面量内联进各个 Publisher / Provider。
+     */
+    public static String GROUP_ID = "DEFAULT_GROUP_YML";
+
+    /**
+     * 用配置值覆盖 Group。空白值忽略，继续使用当前值。
+     */
+    public static void applyGroupId(String groupId) {
+        if (groupId == null) {
+            return;
+        }
+        String trimmed = groupId.trim();
+        if (trimmed.isEmpty()) {
+            return;
+        }
+        GROUP_ID = trimmed;
+    }
     /** 流控规则 */
     public static final String FLOW_DATA_ID_POSTFIX = "-flow-rules.json";
     public static final String PARAM_FLOW_DATA_ID_POSTFIX = "-param-rules.json";

@@ -32,6 +32,15 @@ public class NacosConfig {
     private String password;
 
     /**
+     * Group 不参与创建 ConfigService，读写配置时由各 Publisher / Provider 传入。
+     * 这里在启动时写入 {@link NacosConfigUtil#GROUP_ID}，环境变量优先于默认值。
+     */
+    @Value("${nacos.groupId:DEFAULT_GROUP_YML}")
+    public void setGroupId(String groupId) {
+        NacosConfigUtil.applyGroupId(groupId);
+    }
+
+    /**
      * 流控规则
      *
      * @return
